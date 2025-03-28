@@ -1,0 +1,10 @@
+Flask
+requests
+beautifulsoup4
+nltk
+textblob
+scikit-learn
+matplotlib
+wordcloud
+bs4
+scikit-learn

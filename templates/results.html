@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Analysis Results for "{{ keyword }}"</h1>
+        <p>Here are the insights based on your input:</p>
+    </header>
+
+    <main>
+        {% if results.error %}
+            <div class="error-container">
+                <p class="error-message">{{ results.error }}</p>
+            </div>
+        {% else %}
+            <!-- Sentiment Analysis Section -->
+            <section class="results-section">
+                <h2>Sentiment Analysis</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Sentiment</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sentiment, count in results.sentiments.items() %}
+                        <tr>
+                            <td>{{ sentiment }}</td>
+                            <td>{{ count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Topics Section -->
+            <section class="results-section">
+                <h2>Topics</h2>
+                <ul class="topics-list">
+                    {% for topic in results.topics %}
+                        <li>{{ topic | join(", ") }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <!-- Aspect-Based Sentiments Section -->
+            {% if results.aspect_based_sentiments %}
+            <section class="results-section">
+                <h2>Aspect-Based Sentiment Analysis</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Positive</th>
+                            <th>Neutral</th>
+                            <th>Negative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aspect, sentiment_counts in results.aspect_based_sentiments.items() %}
+                        <tr>
+                            <td>{{ aspect }}</td>
+                            <td>{{ sentiment_counts.positive }}</td>
+                            <td>{{ sentiment_counts.neutral }}</td>
+                            <td>{{ sentiment_counts.negative }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            {% endif %}
+
+            <!-- Best Locations Section -->
+            <section class="results-section">
+                <h2>Best Locations for the Service</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Positive</th>
+                            <th>Neutral</th>
+                            <th>Negative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for location, sentiment_counts in results.locations %}
+                        <tr>
+                            <td>{{ location }}</td>
+                            <td>{{ sentiment_counts.positive }}</td>
+                            <td>{{ sentiment_counts.neutral }}</td>
+                            <td>{{ sentiment_counts.negative }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        <a href="/">Back to Homepage</a>
+        <p>&copy; 2025 CVD Technologies Ltd. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
